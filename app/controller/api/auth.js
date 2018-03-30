@@ -8,9 +8,7 @@ class AuthController extends Controller {
     try {
       const { ctx } = this;
       const { qiniu } = this.app.config;
-      const accessKey = qiniu.accessKey;
-      const secretKey = qiniu.secretKey;
-      const mac = qiniu.mac = qiniu.mac ? qiniu.mac : new Qiniu.auth.digest.Mac(accessKey, secretKey);
+      const mac = this.service.auth.initMac();
       const bucket = qiniu.bucket;
       const options = { // 上传策略
         scope: bucket, // bucket名称

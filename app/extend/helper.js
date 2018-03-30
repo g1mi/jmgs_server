@@ -1,6 +1,6 @@
 'use strict';
-const crypto = require('crypto');
-
+const Crypto = require('crypto');
+const Url = require('url');
 const decodeUserInfo = (encryptedData, iv, appId, sk, ctx) => {
   // base64 decode
   const sessionKey = new Buffer(sk, 'base64');
@@ -9,7 +9,7 @@ const decodeUserInfo = (encryptedData, iv, appId, sk, ctx) => {
   let decoded;
   try {
     // 解密
-    const decipher = crypto.createDecipheriv('aes-128-cbc', sessionKey, iv);
+    const decipher = Crypto.createDecipheriv('aes-128-cbc', sessionKey, iv);
     // 设置自动 padding 为 true，删除填充补位
     decipher.setAutoPadding(true);
     decoded = decipher.update(encryptedData, 'binary', 'utf8');
@@ -43,5 +43,14 @@ const formatUrl = (url, params) => {
   }
   return url + '?' + str;
 };
+
+const authorizeUrl = (originUrl, deadline, domain, bucketManager) => {
+  const path = Url.parse(originUrl).path;
+  const key = path.substr(1, path.length - 1); // 去掉path前面的/得到key
+  const timeset = parseInt(Date.now() / 1000) + deadline;
+  return bucketManager.privateDownloadUrl(domain, key, timeset);
+};
+
 exports.formatUrl = formatUrl;
 exports.decodeUserInfo = decodeUserInfo;
+exports.authorizeUrl = authorizeUrl;

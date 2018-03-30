@@ -53,10 +53,13 @@ class TicketController extends Controller {
     return;
   }
   async show() {
-    const { ctx, service } = this;
+    const { ctx, service, app} = this;
     const ticketId = ctx.params.id;
+    const authorizeUrl = ctx.helper.authorizeUrl;// (originUrl, deadline, domain, bucketManager)
+    const deadline = app.config.qiniu.deadline;
+    const domain = app.config.qiniu.bucketDomain;
+    const bucketManager = service.auth.initBucketManager();
     const page = ctx.request.query.page ? parseInt(ctx.request.query.page) : 1; // 默认为首页数据
-
     const doc = await service.ticket.find(ticketId);
     ctx.assert(doc, 404, '未找到该敢说');
 
@@ -75,8 +78,8 @@ class TicketController extends Controller {
     const returnInfo = {
       ticketId: doc.id,
       ticketOwnerNickName: ownerDoc.nickName,
-      ticketOwneravatarUrl: ownerDoc.avatarUrl,
-      audioUrl: doc.audioUrl, // 需要下载授权
+      ticketOwnerAvatarUrl: ownerDoc.avatarUrl,
+      audioUrl: authorizeUrl(doc.audioUrl, deadline, domain, bucketManager), // 需要下载授权
       tickets: [],
     };
 
@@ -89,8 +92,8 @@ class TicketController extends Controller {
           createTime: challenge.createTime,
           challengseOwnerNickName: challengeOwner.nickName,
           challengseOwnerAvatarUrl: challengeOwner.avatarUrl,
-          posterUrl: challenge.posterUrl, // 需要下载授权
-          videoUrl: challenge.videoUrl, // 需要下载授权
+          posterUrl: authorizeUrl(challenge.posterUrl, deadline, domain, bucketManager), // 需要下载授权
+          videoUrl: authorizeUrl(challenge.videoUrl, deadline, domain, bucketManager), // 需要下载授权
         });
       }
     }
