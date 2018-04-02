@@ -22,6 +22,7 @@ class TicketService extends Service {
     const owner = await service.user.find(DATA.owner);
     ctx.assert(owner, 404, '用户不存在！');
 
+    DATA.createTime = Date.now();
     const ticket = await Ticket.create(DATA);
     ctx.assert(ticket, 405, '添加敢说失败！');
     const addedUser = await service.user.addTicket(DATA.owner, ticket.id);
@@ -31,6 +32,7 @@ class TicketService extends Service {
 
   async addChallenge(TICKETID, CHALLENGEID) {
     return this.ctx.model.Ticket.findByIdAndUpdate(TICKETID, {
+      updateTime: Date.now(),
       $push: {
         challenges: CHALLENGEID,
       },
@@ -41,6 +43,7 @@ class TicketService extends Service {
   async setOverdue(TICKETID) {
     return this.ctx.model.Ticket.findByIdAndUpdate(TICKETID, {
       isAlive: false,
+      updateTime: Date.now(),
     });
   }
 

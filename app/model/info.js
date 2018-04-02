@@ -7,9 +7,9 @@ module.exports = app => {
     // info name
     infoName: { type: String, required: true, unique: true, index: true },
     // create time
-    createTime: { type: String, default: Date.now() },
+    createTime: { type: String },
     // create time
-    updateTime: { type: String, default: Date.now() },
+    updateTime: { type: String },
     content: String,
     meta: { type: String, default: '{}' },
   });

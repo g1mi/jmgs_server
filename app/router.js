@@ -13,5 +13,6 @@ module.exports = app => {
   router.get('/api/info', controller.api.info.show);
   router.get('/api/location', controller.api.location.locate);
   router.post('/login', controller.login.login);
-  router.get('/api/auth/ticket', controller.api.auth.getToken);
+  router.get('/api/auth/ticket', controller.api.auth.ticketToken);
+  router.get('/api/auth/challenge', controller.api.auth.challengeToken);
 };

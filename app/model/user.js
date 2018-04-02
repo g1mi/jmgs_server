@@ -11,7 +11,9 @@ module.exports = app => {
     // 头像，每次登录的时候检查上次更新时间并更新
     avatarUrl: String,
     // 更新时间，每次更新时记录
-    updateTime: { type: String, default: Date.now() },
+    updateTime: { type: String },
+    // 创建时间
+    createTime: { type: String },
     // 敢说IDs
     tickets: [{ type: Schema.Types.ObjectId, ref: 'ticket' }],
     // 敢做IDs

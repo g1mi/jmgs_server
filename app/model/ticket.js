@@ -8,7 +8,8 @@ module.exports = app => {
     owner: { type: Schema.Types.ObjectId, ref: 'user', index: true },
     // 敢说音频地址
     audioUrl: { type: String, required: true, unique: true },
-    createTime: { type: Number, default: Date.now() },
+    createTime: { type: String, index: true },
+    updateTime: { type: String },
     // 是否为激活状态
     isAlive: { type: Boolean, default: true, index: true },
     // 可持续时间，这个由客户端算好传入             // 七天

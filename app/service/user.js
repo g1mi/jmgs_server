@@ -8,10 +8,12 @@ class UserService extends Service {
    */
 
   async create(DATA) {
+    DATA.createTime = Date.now();
     return this.ctx.model.User.create(DATA);
   }
 
   async update(ID, DATA) {
+    DATA.updateTime = Date.now();
     return this.ctx.model.User.findByIdAndUpdate(ID, DATA);
   }
 

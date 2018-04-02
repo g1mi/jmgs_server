@@ -53,15 +53,15 @@ class TicketController extends Controller {
     return;
   }
   async show() {
-    const { ctx, service, app} = this;
+    const { ctx, service, app } = this;
     const ticketId = ctx.params.id;
-    const authorizeUrl = ctx.helper.authorizeUrl;// (originUrl, deadline, domain, bucketManager)
+    const authorizeUrl = ctx.helper.authorizeUrl; // (originUrl, deadline, domain, bucketManager)
     const deadline = app.config.qiniu.deadline;
     const domain = app.config.qiniu.bucketDomain;
     const bucketManager = service.auth.initBucketManager();
     const page = ctx.request.query.page ? parseInt(ctx.request.query.page) : 1; // 默认为首页数据
     const doc = await service.ticket.find(ticketId);
-    ctx.assert(doc, 404, '未找到该敢说');
+    ctx.assert(doc, 404, '未找到该敢说:' + ticketId);
 
     // 检查是否过期
     if (doc.createTime + doc.duration < Date.now()) {
@@ -80,18 +80,18 @@ class TicketController extends Controller {
       ticketOwnerNickName: ownerDoc.nickName,
       ticketOwnerAvatarUrl: ownerDoc.avatarUrl,
       audioUrl: authorizeUrl(doc.audioUrl, deadline, domain, bucketManager), // 需要下载授权
-      tickets: [],
+      challenges: [],
     };
 
-    if (challengeDocs) {
+    if (challengeDocs.length > 0) {
       for (let i = 0; i < challengeDocs.length; i++) {
         const challenge = challengeDocs[i];
         const challengeOwner = await service.user.find(challenge.owner);
-        returnInfo.tickets.push({
+        returnInfo.challenges.push({
           challengeId: challenge.id,
           createTime: challenge.createTime,
-          challengseOwnerNickName: challengeOwner.nickName,
-          challengseOwnerAvatarUrl: challengeOwner.avatarUrl,
+          challengeOwnerNickName: challengeOwner.nickName,
+          challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
           posterUrl: authorizeUrl(challenge.posterUrl, deadline, domain, bucketManager), // 需要下载授权
           videoUrl: authorizeUrl(challenge.videoUrl, deadline, domain, bucketManager), // 需要下载授权
         });

@@ -9,7 +9,7 @@ module.exports = app => {
     // 所属用户
     owner: { type: Schema.Types.ObjectId, index: true, ref: 'user' },
     // 创建时间
-    createTime: { type: String, default: Date.now() },
+    createTime: { type: String, index: true },
     // 挑战视频截图
     posterUrl: String,
     // 挑战视频

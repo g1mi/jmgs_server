@@ -32,6 +32,7 @@ class ChallengeService extends Service {
     }
 
     // 添加新挑战, 并在用户和敢说里添加条目
+    DATA.createTime = Date.now();
     const challenge = await Challenge.create(DATA);
     ctx.assert(challenge, 405, '挑战创建失败！');
     const updatedTicket = await service.ticket.addChallenge(challenge.belongTo, challenge.id);
@@ -50,7 +51,11 @@ class ChallengeService extends Service {
     if (typeof challengeIds !== 'object' || typeof page !== 'number') {
       this.ctx.throw(403, '数据有误！');
     }
-    return this.ctx.model.Challenge.find({ _id: { $in: challengeIds } }).sort({ createTime: -1 }).limit((page - 1) * 10);
+    const pageSize = 10;
+    return this.ctx.model.Challenge.find({ _id: { $in: challengeIds } }).sort({ createTime: -1 }).skip(((page - 1) * pageSize)).limit(pageSize);
+  }
+  async findByTime(ticketId, timeStamp) {
+    return this.ctx.model.Challenge.find({ belongTo: ticketId }).find({ createTime: { $gt: timeStamp } }).sort({ createTime: -1 });
   }
   async fromTicket(TICKETID) {
     return this.ctx.model.Challenge.find({

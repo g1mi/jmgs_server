@@ -4,7 +4,6 @@ const Qiniu = require('qiniu');
 module.exports = (options, app) => {
   return async function(ctx, next) {
     try {
-      console.log('经过api, 即将进入安检！');
       const { authorization } = ctx.request.header;
       ctx.assert(authorization, 403, '身份验证失败！！');
       // 上传回调验证
@@ -19,6 +18,7 @@ module.exports = (options, app) => {
       // 设定返回形式
       ctx.type = 'json';
       await next();
+      ctx.logger.info(ctx.type + ' ' + ctx.status + ' ' + ctx.path);
     } catch (error) {
       ctx.throw(403, error);
     }
