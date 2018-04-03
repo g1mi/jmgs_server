@@ -66,7 +66,8 @@ class AuthController extends Controller {
           '"belongTo":"$(x:belongTo)",' +
           '"owner":"$(x:owner)",' +
           '"posterUrl":"$(x:posterUrl)",' +
-          '"videoUrl":"$(x:videoUrl)"' +
+          '"videoUrl":"$(x:videoUrl)",' +
+          '"isVertical":"$(x:isVertical)"' +
           '}',
         callbackBodyType: 'application/json',
 

@@ -8,6 +8,8 @@ class ChallengeController extends Controller {
     super(ctx);
 
     this.ChallengeCreateData = {
+      // 竖向
+      isVertical: { type: 'string', required: false, allowEmpty: false },
       // 敢说所属用户
       belongTo: { type: 'string', required: true, allowEmpty: false },
       // 所属用户
@@ -28,13 +30,16 @@ class ChallengeController extends Controller {
       ctx.validate(this.ChallengeCreateData);
 
       const data = ctx.request.body;
-
+      if (data.isVertical) {
+        data.isVertical = data.isVertical === 'true';
+      }
       const doc = await service.challenge.create(data);
       if (doc) {
         ctx.status = 200;
         ctx.body = JSON.stringify({ challengeId: doc.id });
       }
     } catch (error) {
+      ctx.logger.error(error);
       ctx.throw(403, '挑战添加失败！');
     }
 
@@ -74,6 +79,7 @@ class ChallengeController extends Controller {
         challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
         posterUrl: authorizeUrl(doc.posterUrl, deadline, domain, bucketManager), // 需要下载授权
         videoUrl: authorizeUrl(doc.videoUrl, deadline, domain, bucketManager), // 需要下载授权
+        isVertical: doc.isVertical,
       });
     }
 

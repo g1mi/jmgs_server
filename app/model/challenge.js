@@ -14,6 +14,8 @@ module.exports = app => {
     posterUrl: String,
     // 挑战视频
     videoUrl: { type: String, required: true, unique: true },
+    // 视频竖向
+    isVertical: { type: String, default: false },
   });
   return mongoose.model('challenge', challengeSchema, 'basic_challenge');
 };
