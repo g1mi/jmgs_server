@@ -18,7 +18,13 @@ class HomeController extends Controller {
     //     console.log(dec);
     //   }
     // });
-    this.ctx.body = 'hello, egg!';
+    this.ctx.body = await this.service.ticket.locate({
+      location: [
+        107.235982,
+        34.360620,
+      ],
+      maxDistance: 0.01,
+    });
   }
 }
 
