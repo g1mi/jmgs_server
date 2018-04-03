@@ -94,6 +94,7 @@ class TicketController extends Controller {
           challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
           posterUrl: authorizeUrl(challenge.posterUrl, deadline, domain, bucketManager), // 需要下载授权
           videoUrl: authorizeUrl(challenge.videoUrl, deadline, domain, bucketManager), // 需要下载授权
+          isVertical: doc.isVertical,
         });
       }
     }
