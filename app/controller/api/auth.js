@@ -6,7 +6,9 @@ const Qiniu = require('qiniu');
 class AuthController extends Controller {
   // 在创建上传Token之前应当先查验是否具备上传条件，如遇到过期，人满等情况
 
-
+  async checkLogin() {
+    this.ctx.status = 200;
+  }
   async ticketToken() {
     try {
       const { ctx } = this;

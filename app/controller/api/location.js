@@ -19,17 +19,17 @@ class LocateController extends Controller {
       };
       // 取得周围坐标点
       const ticketsNear = await service.ticket.locate(queryData);
-
       if (ticketsNear) {
-        ctx.status = 200;
         const tickets = [];
-        ticketsNear.forEach(ticket => {
+        for (let i = 0; i < ticketsNear.length; i++) {
+          const t = ticketsNear[i];
           tickets.push({
-            ticketId: ticket.id,
-            ticketLocation: ticket.location,
+            ticketId: t.id,
+            ticketLocation: t.location,
           });
-        });
+        }
         ctx.body = { tickets };
+        ctx.status = 200;
       }
       return;
     } catch (error) {

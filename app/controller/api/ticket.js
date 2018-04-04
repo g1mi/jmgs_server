@@ -94,11 +94,10 @@ class TicketController extends Controller {
           challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
           posterUrl: authorizeUrl(challenge.posterUrl, deadline, domain, bucketManager), // 需要下载授权
           videoUrl: authorizeUrl(challenge.videoUrl, deadline, domain, bucketManager), // 需要下载授权
-          isVertical: doc.isVertical,
+          isVertical: challenge.isVertical,
         });
       }
     }
-
     ctx.body = returnInfo;
     ctx.status = 200;
     // 日他先人，钻牛角尖了
