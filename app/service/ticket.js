@@ -52,14 +52,13 @@ class TicketService extends Service {
   }
 
   async locate(QUERY) {
-    return await this.ctx.model.Ticket.find({
+    return this.ctx.model.Ticket.find({
       location: {
         $near: QUERY.location,
         $maxDistance: QUERY.maxDistance,
       },
     }).where({ isAlive: true }).sort({ createTime: -1 }).limit(50);
   }
-
 }
 
 module.exports = TicketService;

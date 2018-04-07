@@ -61,9 +61,8 @@ class ChallengeController extends Controller {
     let docs = [ await service.challenge.find(challengeId) ];
     ctx.assert(docs, 404, '未找到该挑战：' + challengeId);
 
-    // 是否为更新查新
     const isUpdate = ctx.request.query.isUpdate;
-    if (isUpdate) {
+    if (isUpdate) { // 是否为更新查新
       const utilWhen = ctx.request.query.utilWhen;
       const belongTo = docs[0].belongTo;
       docs = await service.challenge.findByTime(belongTo, utilWhen);
@@ -71,12 +70,11 @@ class ChallengeController extends Controller {
     const returnInfo = [];
     for (let i = 0; i < docs.length; i++) {
       const doc = docs[i];
-      const challengeOwner = await service.user.find(doc.owner);
       returnInfo.push({
         challengeId: doc.id,
         createTime: doc.createTime,
-        challengeOwnerNickName: challengeOwner.nickName,
-        challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
+        challengeOwnerNickName: doc.owner.nickName,
+        challengeOwnerAvatarUrl: doc.owner.avatarUrl,
         posterUrl: authorizeUrl(doc.posterUrl, deadline, domain, bucketManager), // 需要下载授权
         videoUrl: authorizeUrl(doc.videoUrl, deadline, domain, bucketManager), // 需要下载授权
         isVertical: doc.isVertical,

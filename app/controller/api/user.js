@@ -77,6 +77,26 @@ class UserController extends Controller {
     return;
   }
   async show() {
+    const { ctx, service } = this;
+    const responseType = ctx.request.query.type;
+    const userId = ctx.params.id;
+    if (responseType === 'userrecord') {
+      const responseData = await service.user.findRecords(userId); // 包含重复信息
+      ctx.body = responseData;
+      ctx.status = 200;
+    } else {
+      const user = await service.user.find(userId);
+      ctx.assert(user, 404, '未找到用户');
+      const responseData = {
+        userId: user.id,
+        nickName: user.nickName,
+        avatarUrl: user.avatarUrl,
+        tickets: user.tickets,
+        challenges: user.challenges,
+      };
+      ctx.body = responseData;
+      ctx.status = 200;
+    }
     return;
   }
 }
