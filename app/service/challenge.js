@@ -43,7 +43,7 @@ class ChallengeService extends Service {
   }
 
   async find(ID) {
-    return this.ctx.model.Challenge.findById(ID);
+    return this.ctx.model.Challenge.findById(ID).populate('owner', [ 'nickName', 'avatarUrl' ]);
   }
   // 传入数组Ids
   async findByPage(challengeIds, page) {

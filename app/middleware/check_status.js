@@ -18,7 +18,9 @@ module.exports = (options, app) => {
       // 设定返回形式
       ctx.type = 'json';
       await next();
-      ctx.logger.info(ctx.type + ' ' + ctx.status + ' ' + ctx.path);
+      if (ctx.app.config.env !== 'prod') {
+        ctx.logger.info(ctx.status);
+      }
     } catch (error) {
       ctx.throw(403, error);
     }

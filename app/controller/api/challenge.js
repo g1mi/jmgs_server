@@ -62,10 +62,12 @@ class ChallengeController extends Controller {
     ctx.assert(docs, 404, '未找到该挑战：' + challengeId);
 
     const isUpdate = ctx.request.query.isUpdate;
-    if (isUpdate) { // 是否为更新查新
-      const utilWhen = ctx.request.query.utilWhen;
+    const utilWhen = ctx.request.query.utilWhen;
+    if (isUpdate && utilWhen) { // 是否为更新查新
+      console.log('ssssss')
       const belongTo = docs[0].belongTo;
       docs = await service.challenge.findByTime(belongTo, utilWhen);
+      console.log(docs);
     }
     const returnInfo = [];
     for (let i = 0; i < docs.length; i++) {
