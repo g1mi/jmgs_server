@@ -86,12 +86,11 @@ class TicketController extends Controller {
     if (challengeDocs.length > 0) {
       for (let i = 0; i < challengeDocs.length; i++) {
         const challenge = challengeDocs[i];
-        const challengeOwner = await service.user.find(challenge.owner);
         returnInfo.challenges.push({
           challengeId: challenge.id,
           createTime: challenge.createTime,
-          challengeOwnerNickName: challengeOwner.nickName,
-          challengeOwnerAvatarUrl: challengeOwner.avatarUrl,
+          challengeOwnerNickName: challenge.owner.nickName,
+          challengeOwnerAvatarUrl: challenge.owner.avatarUrl,
           posterUrl: authorizeUrl(challenge.posterUrl, deadline, domain, bucketManager), // 需要下载授权
           videoUrl: authorizeUrl(challenge.videoUrl, deadline, domain, bucketManager), // 需要下载授权
           isVertical: challenge.isVertical,

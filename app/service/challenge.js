@@ -52,10 +52,13 @@ class ChallengeService extends Service {
       this.ctx.throw(403, '数据有误！');
     }
     const pageSize = 10;
-    return this.ctx.model.Challenge.find({ _id: { $in: challengeIds } }).sort({ createTime: -1 }).skip(((page - 1) * pageSize)).limit(pageSize);
+    return this.ctx.model.Challenge.find({ _id: { $in: challengeIds } }).populate({ path: 'owner', select: [ 'nickName', 'avatarUrl' ] }).sort({ createTime: -1 })
+      .skip(((page - 1) * pageSize))
+      .limit(pageSize);
   }
   async findByTime(ticketId, timeStamp) {
-    return this.ctx.model.Challenge.find({ belongTo: ticketId }).find({ createTime: { $gt: timeStamp } }).populate({ path: 'owner', select: [ 'nickName', 'avatarUrl' ] }).sort({ createTime: -1 });
+    return this.ctx.model.Challenge.find({ belongTo: ticketId }).find({ createTime: { $gt: timeStamp } }).populate({ path: 'owner', select: [ 'nickName', 'avatarUrl' ] })
+      .sort({ createTime: -1 });
   }
   async fromTicket(TICKETID) {
     return this.ctx.model.Challenge.find({
