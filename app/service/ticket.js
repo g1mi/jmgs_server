@@ -57,7 +57,7 @@ class TicketService extends Service {
         $near: QUERY.location,
         $maxDistance: QUERY.maxDistance,
       },
-    }).where({ isAlive: true }).sort({ createTime: -1 }).limit(50);
+    }).where({ isAlive: true }).sort({ createTime: -1 });
   }
 }
 

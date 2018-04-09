@@ -26,7 +26,7 @@ class LocateController extends Controller {
           tickets.push({
             ticketId: t.id,
             ticketLocation: t.location,
-            hotLevel: t.challenges.length > 10 ? (t.challenges.length > 50 ? 3 : 2) : 1,
+            hotLevel: t.challenges.length > 10 ? (t.challenges.length > 30 ? (t.challenges.length > 50 ? 4 : 3) : 2) : 1,
           });
         }
         ctx.body = { tickets };

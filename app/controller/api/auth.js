@@ -9,6 +9,13 @@ class AuthController extends Controller {
   async checkLogin() {
     this.ctx.status = 200;
   }
+
+  /**
+   * TODO:
+   *   添加权限检查（是否可以添加敢说，是否可以挑战等等）
+   */
+
+
   async ticketToken() {
     try {
       const { ctx } = this;
