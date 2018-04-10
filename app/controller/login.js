@@ -49,7 +49,9 @@ class LoginController extends Controller {
         avatarUrl: userInfo.avatarUrl,
       };
       user = await service.user.create(params);
-      ctx.assert(user, 403, '用户未添加成功！');
+      if (ctx.helper.assertNull(user, 403, '用户未添加成功！', ctx)) {
+        return;
+      }
     }
 
     // 取得jwt

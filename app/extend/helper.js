@@ -50,7 +50,15 @@ const authorizeUrl = (originUrl, deadline, domain, bucketManager) => {
   const timeset = parseInt(Date.now() / 1000) + deadline;
   return bucketManager.privateDownloadUrl(domain, key, timeset);
 };
-
+const assertNull = (data, code, msg, ctx) => {
+  if (!data) {
+    ctx.status = code;
+    ctx.body = msg;
+    return true;
+  }
+  return false;
+};
 exports.formatUrl = formatUrl;
 exports.decodeUserInfo = decodeUserInfo;
 exports.authorizeUrl = authorizeUrl;
+exports.assertNull = assertNull;

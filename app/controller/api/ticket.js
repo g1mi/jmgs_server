@@ -61,7 +61,9 @@ class TicketController extends Controller {
     const bucketManager = service.auth.initBucketManager();
     const page = ctx.request.query.page ? parseInt(ctx.request.query.page) : 1; // 默认为首页数据
     const doc = await service.ticket.find(ticketId);
-    ctx.assert(doc, 404, '未找到该敢说:' + ticketId);
+    if (ctx.helper.assertNull(doc, 404, '未找到该敢说' + ticketId, ctx)) {
+      return;
+    }
 
     // 检查是否过期
     if (doc.createTime + doc.duration < Date.now()) {

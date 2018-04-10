@@ -9,7 +9,10 @@ class LocateController extends Controller {
     try {
       // 取得目标坐标
       const { longitude, latitude, maxDistance } = ctx.request.query;
-      ctx.assert(longitude || latitude || maxDistance, 403, '请求定位格式不对！');
+      if (ctx.helper.assertNull(longitude || latitude || maxDistance, 403, '请求定位格式不对！', ctx)) {
+        return;
+      }
+
       const queryData = {
         location: [
           longitude,

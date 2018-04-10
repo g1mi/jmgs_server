@@ -34,11 +34,17 @@ class ChallengeService extends Service {
     // 添加新挑战, 并在用户和敢说里添加条目
     DATA.createTime = Date.now();
     const challenge = await Challenge.create(DATA);
-    ctx.assert(challenge, 405, '挑战创建失败！');
+    if (ctx.helper.assertNull(challenge, 403, '挑战创建失败！', ctx)) {
+      return;
+    }
     const updatedTicket = await service.ticket.addChallenge(challenge.belongTo, challenge.id);
-    ctx.assert(updatedTicket, 405, '挑战未添加到敢说中！');
+    if (ctx.helper.assertNull(updatedTicket, 403, '挑战未添加到敢说中！', ctx)) {
+      return;
+    }
     const updatedUser = await service.user.addChallenge(challenge.owner, challenge.id);
-    ctx.assert(updatedUser, 405, '挑战未添加到用户记录中！');
+    if (ctx.helper.assertNull(updatedUser, 403, '挑战未添加到用户记录中！', ctx)) {
+      return;
+    }
     return challenge;
   }
 

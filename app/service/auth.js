@@ -6,7 +6,9 @@ class AuthService extends Service {
   async curlData(URL) {
     // 获取登录数据
     const result = await this.ctx.curl(URL, { dataType: 'json', timeout: 3000 });
-    this.ctx.assert(result.data, 403, '获取用户信息失败! assert');
+    if (this.ctx.helper.assertNull(result.data, 403, '获取用户信息失败!!', this.ctx)) {
+      return;
+    }
 
     return result.data;
   }

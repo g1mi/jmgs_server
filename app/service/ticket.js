@@ -20,13 +20,18 @@ class TicketService extends Service {
 
     // 在创建的同时，用户表里需要添加记录
     const owner = await service.user.find(DATA.owner);
-    ctx.assert(owner, 404, '用户不存在！');
-
+    if (ctx.helper.assertNull(owner, 404, '用户不存在！', ctx)) {
+      return;
+    }
     DATA.createTime = Date.now();
     const ticket = await Ticket.create(DATA);
-    ctx.assert(ticket, 405, '添加敢说失败！');
+    if (ctx.helper.assertNull(ticket, 403, '添加敢说失败！', ctx)) {
+      return;
+    }
     const addedUser = await service.user.addTicket(DATA.owner, ticket.id);
-    ctx.assert(addedUser, 405, '未能添加敢说到用户记录！');
+    if (ctx.helper.assertNull(addedUser, 403, '未能添加敢说到用户记录！', ctx)) {
+      return;
+    }
     return ticket;
   }
 

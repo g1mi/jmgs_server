@@ -86,7 +86,9 @@ class UserController extends Controller {
       ctx.status = 200;
     } else {
       const user = await service.user.find(userId);
-      ctx.assert(user, 404, '未找到用户');
+      if (ctx.helper.assertNull(user, 404, '未找到用户!', ctx)) {
+        return;
+      }
       const responseData = {
         userId: user.id,
         nickName: user.nickName,

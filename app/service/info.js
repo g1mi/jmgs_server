@@ -14,7 +14,9 @@ class InfoService extends Service {
   async update(NAME, NEWCONTENT) {
     const { ctx } = this;
     return ctx.model.Info.findOne({ infoName: NAME }, (err, info) => {
-      ctx.assert(info, 404, '未找到[' + NAME + ']消息内容');
+      if (ctx.helper.assertNull(info, 403, '未找到[' + NAME + ']消息内容', ctx)) {
+        return;
+      }
       ctx.model.Info.findOneAndUpdate({ infoName: NAME }, {
         content: NEWCONTENT,
         updateTime: Date.now(),

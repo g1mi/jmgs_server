@@ -45,7 +45,9 @@ class AuthController extends Controller {
       };
       const putPolicy = new Qiniu.rs.PutPolicy(options);
       const token = putPolicy.uploadToken(mac);
-      ctx.assert(token, 403, '获取上传授权失败！');
+      if (ctx.helper.assertNull(token, 403, '获取敢说上传授权失败！', ctx)) {
+        return;
+      }
       ctx.status = 200;
       ctx.body = {
         ticketToken: token,
@@ -85,7 +87,9 @@ class AuthController extends Controller {
       };
       const putPolicy = new Qiniu.rs.PutPolicy(options);
       const token = putPolicy.uploadToken(mac);
-      ctx.assert(token, 403, '获取上传授权失败！');
+      if (ctx.helper.assertNull(token, 403, '获取挑战上传授权失败！', ctx)) {
+        return;
+      }
       ctx.status = 200;
       ctx.body = {
         challengeToken: token,

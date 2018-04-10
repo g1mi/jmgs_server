@@ -59,7 +59,9 @@ class ChallengeController extends Controller {
     const bucketManager = service.auth.initBucketManager();
 
     let docs = [ await service.challenge.find(challengeId) ];
-    ctx.assert(docs, 404, '未找到该挑战：' + challengeId);
+    if (ctx.helper.assertNull(docs, 404, '未找到该挑战：' + challengeId, ctx)) {
+      return;
+    }
 
     const isUpdate = ctx.request.query.isUpdate;
     const utilWhen = ctx.request.query.utilWhen;
