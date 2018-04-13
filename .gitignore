@@ -12,3 +12,4 @@ run/
 *.un~
 _db.js
 .vscode
+config/config.default.js
