@@ -8,6 +8,8 @@ jmgs server
 
 see [egg docs][egg] for more detail.
 
+将根目录当中的config.default.js移动到config文件夹下，并根据自己的配置修改其中的###项
+
 ### Development
 
 ```bash
