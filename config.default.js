@@ -22,21 +22,29 @@ module.exports = appInfo => {
     },
     weapp: {
       authUrl: 'https://api.weixin.qq.com/sns/jscode2session',
-      appSecret: 'secret',
-      appId: 'appi',
+      appSecret: '###',
+      appId: '###',
     },
     security: {
       csrf: {
         ignoreJSON: true,
       },
     },
+    // redis: {
+    //   client: {
+    //     port: 6379,
+    //     host: '127.0.0.1',
+    //     password: '',
+    //     db: 0,
+    //   },
+    // },
     qiniu: {
-      accessKey: 'key2',
-      secretKey: 'key1',
+      accessKey: '###',
+      secretKey: '',
       ticketCallbackUrl: 'http://jmgs.viphk.ngrok.org/api/ticket', // 上传成功后提交表单数据
       challengeCallbackUrl: 'http://jmgs.viphk.ngrok.org/api/challenge',
-      bucketDomain: 'bucket url', // 不能加/ authorizeUrl
-      bucket: 'bucket名称',
+      bucketDomain: '###', // 不能加/ authorizeUrl
+      bucket: '###',
       deadline: 3600, // 授权可访问时间
     },
   };
