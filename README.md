@@ -26,6 +26,11 @@ $ npm start
 $ npm stop
 ```
 
+### stacks
+
+- mongodb
+- jwt
+- 七牛云对象存储
 ### npm scripts
 
 - Use `npm run lint` to check code style.
